@@ -14,5 +14,6 @@ func UserRoutes(e *echo.Group) {
 	h := handlers.HandlerUser(userRepository)
 
 	e.POST("/register", h.Register)
+	e.GET("/user/:id", h.GetUser)
 
 }

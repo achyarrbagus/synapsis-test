@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 	dto "synapsis-test/dto/result"
 	userdto "synapsis-test/dto/user"
 	"synapsis-test/models"
@@ -56,4 +57,15 @@ func (h *handlerUser) Register(c echo.Context) error {
 	data, _ := h.UserRepository.GetUser(newData.ID)
 
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+}
+
+func (h *handlerUser) GetUser(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	user, err := h.UserRepository.GetUser(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: user})
 }
