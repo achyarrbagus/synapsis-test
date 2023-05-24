@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"synapsis-test/database"
 	"synapsis-test/pkg/postgree"
+	"synapsis-test/routes"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -28,6 +30,8 @@ func main() {
 	}))
 
 	postgree.DatabaseInit()
+	database.RunMigration()
+	routes.RouteInit(e.Group("/api/v1"))
 
 	e.Static("/uploads", "./uploads")
 	fmt.Println("server running localhost:" + port)
