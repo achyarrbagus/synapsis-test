@@ -8,7 +8,7 @@ import (
 
 // automatic migration
 func RunMigration() {
-	err := postgree.DB.AutoMigrate(&models.User{}, &models.Product{}, &models.Category{}, &models.Cart{}, &models.Transaction{})
+	err := postgree.DB.AutoMigrate(&models.User{}, &models.Product{}, &models.Category{}, &models.Cart{}, &models.Transaction{}, &models.Address{})
 
 	if err != nil {
 		fmt.Println(err)

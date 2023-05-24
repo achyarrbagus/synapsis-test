@@ -4,9 +4,7 @@ type Transaction struct {
 	ID          int    `json:"id" gorm:"primary_key:auto_increment"`
 	UserID      int    `json:"-"`
 	User        User   `json:"user" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Name        string `json:"name" gorm:"type:varchar(255)"`
-	Address     string `json:"address" gorm:"type:varchar(255)"`
-	PostalCode  string `json:"postal_code" gorm:"type:varchar(255)"`
+	AddreessID  int    `json:"addreess_id"`
 	Phone       string `json:"phone" gorm:"type:varchar(255)"`
 	Day         string `json:"day" gorm:"type:varchar(255)"`
 	Date        string `json:"date" gorm:"type:varchar(255)"`
