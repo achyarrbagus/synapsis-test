@@ -1,0 +1,21 @@
+package routes
+
+import (
+	"synapsis-test/handlers"
+	"synapsis-test/pkg/postgree"
+	repostitories "synapsis-test/repostitory"
+
+	"github.com/labstack/echo/v4"
+)
+
+func ProductRoutes(e *echo.Group) {
+	productRepository := repostitories.RepositoryProduct(postgree.DB)
+	categoryRepository := repostitories.RepositoryCategory(postgree.DB)
+
+	h := handlers.HandlerProduct(productRepository, categoryRepository)
+
+	e.POST("/product", h.CreateProduct)
+	e.GET("/product/:id", h.GetProduct)
+	e.GET("/product", h.GetAllProduct)
+
+}
