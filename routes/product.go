@@ -11,8 +11,9 @@ import (
 func ProductRoutes(e *echo.Group) {
 	productRepository := repostitories.RepositoryProduct(postgree.DB)
 	categoryRepository := repostitories.RepositoryCategory(postgree.DB)
+	productCategoryRepository := repostitories.RepositoryProductCategory(postgree.DB)
 
-	h := handlers.HandlerProduct(productRepository, categoryRepository)
+	h := handlers.HandlerProduct(productRepository, categoryRepository, productCategoryRepository)
 
 	e.POST("/product", h.CreateProduct)
 	e.GET("/product/:id", h.GetProduct)

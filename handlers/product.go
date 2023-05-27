@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	productdto "synapsis-test/dto/product"
@@ -14,12 +15,13 @@ import (
 )
 
 type handlerProduct struct {
-	ProductRepository  repostitories.ProductRepository
-	CategoryRepository repostitories.CategoryRepository
+	ProductRepository         repostitories.ProductRepository
+	CategoryRepository        repostitories.CategoryRepository
+	ProductCategoruRepository repostitories.ProductCategory
 }
 
-func HandlerProduct(ProductRepository repostitories.ProductRepository, CategoryRepository repostitories.CategoryRepository) *handlerProduct {
-	return &handlerProduct{ProductRepository, CategoryRepository}
+func HandlerProduct(ProductRepository repostitories.ProductRepository, CategoryRepository repostitories.CategoryRepository, ProductCategory repostitories.ProductCategory) *handlerProduct {
+	return &handlerProduct{ProductRepository, CategoryRepository, ProductCategory}
 }
 
 func (h *handlerProduct) GetAllProduct(c echo.Context) error {
@@ -45,15 +47,18 @@ func (h *handlerProduct) CreateProduct(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 	}
 
-	// for _, x := range request.CategoryID {
-	// 	if int(x-0) > 0 {
-	// 		getCategory, err := h.CategoryRepository.GetCategory(x)
-	// 		if err != nil {
-	// 			return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: "Category Not Found"})
-	// 		}
-	// 		catagoryId = append(catagoryId, getCategory.ID)
-	// 	}
-	// }
+	var productCategory []models.Category
+
+	for _, x := range request.CategoryID {
+		if int(x-0) > 0 {
+			getCategory, err := h.CategoryRepository.GetCategory(x)
+			if err != nil {
+				return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: "Category Not Found"})
+			}
+			productCategory = append(productCategory, getCategory)
+		}
+	}
+	fmt.Println(productCategory, "ini data")
 
 	product := models.Product{
 		Name:        request.Name,
@@ -61,7 +66,7 @@ func (h *handlerProduct) CreateProduct(c echo.Context) error {
 		Price:       request.Price,
 		Stock:       request.Stock,
 		Image:       request.Image,
-		CategoryID:  request.CategoryID,
+		Category:    productCategory,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 	}
