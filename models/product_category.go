@@ -2,6 +2,6 @@ package models
 
 type ProductCategory struct {
 	ID         int `json:"id" gorm:"primary_key:auto_increment"`
-	ProductID  int `json:"-"  gorm:"foreignkey:ProductID"`
-	CategoryID int `json:"-"  gorm:"foreignkey:CategoryID"`
+	ProductID  int `json:"product_id"  gorm:"foreignkey:ProductID"`
+	CategoryID int `json:"category_id"  gorm:"foreignkey:CategoryID"`
 }

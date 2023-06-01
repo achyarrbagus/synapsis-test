@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func categoryRoutes(e *echo.Group) {
+func CategoryRoutes(e *echo.Group) {
 	CategoryRepository := repostitories.RepositoryCategory(postgree.DB)
 	h := handlers.HandlerCategory(CategoryRepository)
 

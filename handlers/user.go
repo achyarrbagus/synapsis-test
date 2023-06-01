@@ -56,9 +56,7 @@ func (h *handlerUser) Register(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 	}
 
-	data, _ := h.UserRepository.GetUser(newData.ID)
-
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: newData})
 }
 
 func (h *handlerUser) GetUser(c echo.Context) error {

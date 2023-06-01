@@ -32,14 +32,14 @@ func (r *repository) Register(user models.User) (models.User, error) {
 }
 func (r *repository) Login(email string) (models.User, error) {
 	var user models.User
-	err := r.db.Preload("Transaction").Preload("Address").First(&user, "email=?", email).Error
+	err := r.db.First(&user, "email=?", email).Error
 
 	return user, err
 }
 
 func (r *repository) GetUser(UserId int) (models.User, error) {
 	var User models.User
-	err := r.db.Preload("Transaction").Preload("Address").First(&User, UserId).Error
+	err := r.db.First(&User, UserId).Error
 	return User, err
 }
 

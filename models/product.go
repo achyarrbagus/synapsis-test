@@ -10,7 +10,7 @@ type Product struct {
 	Stock       int        `json:"stock" form:"stock" gorm:"type: int"`
 	Image       string     `json:"image" form:"image" gorm:"type: varchar(255)"`
 	Category    []Category `json:"category" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;many2many:product_categories"`
-	CategoryID  []int      `json:"-" form:"category_id" gorm:"-"`
+	CategoryID  []int      `json:"category_id" form:"category_id" gorm:"-"`
 	CreatedAt   time.Time  `json:"created_at"`
 	UpdatedAt   time.Time  `json:"updated_at"`
 }
