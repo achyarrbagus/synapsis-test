@@ -11,8 +11,12 @@ import (
 
 func CartRoutes(e *echo.Group) {
 	CartRepository := repostitories.RepositoryCart(postgree.DB)
+	TransactionRepository := repostitories.RepositoryTransaction(postgree.DB)
+	UserRepository := repostitories.RepositoryUser(postgree.DB)
+	AddreesRepository := repostitories.RepositoryAddress(postgree.DB)
+	ProductRepository := repostitories.RepositoryProduct(postgree.DB)
 
-	h := handlers.HandlerCart(CartRepository)
+	h := handlers.HandlerCart(CartRepository, TransactionRepository, UserRepository, AddreesRepository, ProductRepository)
 
 	e.POST("/cart", middleware.Auth(h.CreateCart))
 

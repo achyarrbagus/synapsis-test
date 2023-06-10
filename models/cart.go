@@ -9,6 +9,7 @@ type Cart struct {
 	ProductID     int         `json:"product_id"`
 	Product       Product     `json:"cart" gorm:"constraint:OnUpdate:CASCADE;OnDelete:SET NULL;foreignKey:ProductID"`
 	Qty           int         `json:"qty" gorm:"type:int"`
+	Price         int         `json:"price"`
 	TransactionID int         `json:"transaction_id" gorm:"type: int"`
 	Transaction   Transaction `json:"transaction"`
 	CreatedAt     time.Time   `json:"-"`

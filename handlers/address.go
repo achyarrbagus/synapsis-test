@@ -70,6 +70,9 @@ func (h *handlerAddrees) UpdateAddreesUser(c echo.Context) error {
 	if request.HouseNumber != "" {
 		addrees.HouseNumber = request.HouseNumber
 	}
+	if request.Phone != "" {
+		addrees.Phone = request.Phone
+	}
 	if request.PostCode != "" {
 		addrees.PostCode = request.PostCode
 	}
@@ -115,6 +118,7 @@ func (h *handlerAddrees) CreateAddrees(c echo.Context) error {
 		HouseNumber: request.HouseNumber,
 		PostCode:    request.PostCode,
 		City:        request.City,
+		Phone:       request.Phone,
 		Province:    request.Province,
 		Country:     request.Country,
 		UserID:      int(isLoginUser),

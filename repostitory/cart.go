@@ -6,22 +6,13 @@ import (
 	"gorm.io/gorm"
 )
 
-// type CartRepository interface {
-// 	CreateCart(cart models.Cart) (models.Cart, error)
-// 	GetAllCart() ([]models.Cart, error)
-// 	GetCart(ID int) (models.Cart, error)
-// 	GetAllUserCart(UserID int) ([]models.Cart, error)
-// 	GetPendingTransactionUser(UserID int) (models.Transaction, error)
-// }
-
-// func RepositoryCart(db *gorm.DB) *repository {
-// 	return &repository{db}
-// }
-
 type CartRepository interface {
 	CreateCart(cart models.Cart) (models.Cart, error)
 	GetAllCart() ([]models.Cart, error)
 	GetCart(ID int) (models.Cart, error)
+	GetAllUserCart(UserID int) ([]models.Cart, error)
+	GetOneUserCart(UserID int, ProductID int) (models.Cart, error)
+	UpdateOneCartUser(Cart models.Cart) (models.Cart, error)
 }
 
 func RepositoryCart(db *gorm.DB) *repository {
@@ -37,6 +28,24 @@ func (r *repository) GetAllCart() ([]models.Cart, error) {
 	var cart []models.Cart
 	err := r.db.Find(&cart).Error
 	return cart, err
+}
+
+func (r *repository) GetAllUserCart(UserID int) ([]models.Cart, error) {
+	var userCart []models.Cart
+	err := r.db.Preload("User").Where("user_id", UserID).Find(&userCart).Error
+	return userCart, err
+}
+
+func (r *repository) UpdateOneCartUser(Cart models.Cart) (models.Cart, error) {
+	err := r.db.Save(&Cart).Error
+	return Cart, err
+}
+
+func (r *repository) GetOneUserCart(UserID int, ProductID int) (models.Cart, error) {
+	var productCart models.Cart
+	err := r.db.Preload("Transaction").Preload("Transaction.User").Preload("Product").Preload("User").Where("user_id = ? AND product_id = ?", UserID, ProductID).First(&productCart).Error
+	// err := r.db.First("SELECT * FROM product_carts WHERE user_id = ? AND product_id = ?", UserID, ProductID).Scan(&productCart).Error
+	return productCart, err
 }
 
 func (r *repository) GetCart(ID int) (models.Cart, error) {

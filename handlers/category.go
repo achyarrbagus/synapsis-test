@@ -23,6 +23,7 @@ func HandlerCategory(CategoryRepository repostitories.CategoryRepository) *handl
 
 func (h *handlerCategory) CreateCategory(c echo.Context) error {
 	request := new(categorydto.CategoryRequest)
+
 	if err := c.Bind(request); err != nil {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 	}

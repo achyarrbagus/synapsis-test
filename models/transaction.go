@@ -6,9 +6,8 @@ type Transaction struct {
 	ID          int       `json:"id" gorm:"primary_key:auto_increment"`
 	UserID      int       `json:"-"`
 	User        User      `json:"user" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Address     Addrees   `json:"addreess" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;many2many:transactions_addresses"`
-	AddreessID  int       `json:"addreess_id"`
-	Phone       string    `json:"phone" gorm:"type:varchar(255)"`
+	AddressID   int       `json:"addrees_id"`
+	Address     Addrees   `json:"addrees" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Day         string    `json:"day" gorm:"type:varchar(255)"`
 	Date        string    `json:"date" gorm:"type:varchar(255)"`
 	Status      string    `json:"status" gorm:"type:varchar(255)"`
